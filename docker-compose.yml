@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  docusaurus:
+    image: skarious/docusaurus:latest
+    container_name: docusaurus-site
+    ports:
+      - "3000:80"  # Mapea el puerto 3000 del host al 80 del contenedor
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 5s
+    networks:
+      - docusaurus-network
+
+networks:
+  docusaurus-network:
+    driver: bridge
